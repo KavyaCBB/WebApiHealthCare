@@ -33,6 +33,7 @@ namespace WebApiHealthCare
         {
             services.AddControllers();
             services.AddScoped<ILoginRepo, LoginRepo>();
+            services.AddScoped<IRolesRepo, RolesRepo>();
             services.AddDbContext<HealthCareDbContext>(options => options.UseSqlServer("Server=localhost,1404; DataBase=HealthCare; User Id=SA; Password=Walmart$0"));
             services.AddMvc();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -57,13 +58,14 @@ namespace WebApiHealthCare
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(options => options.AllowAnyOrigin());
             app.UseHttpsRedirection();
-
+            
             app.UseRouting();
-
+            app.UseAuthentication();
+           
             app.UseAuthorization();
-
+                    
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
