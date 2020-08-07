@@ -34,6 +34,8 @@ namespace WebApiHealthCare
             services.AddControllers();
             services.AddScoped<ILoginRepo, LoginRepo>();
             services.AddScoped<IRolesRepo, RolesRepo>();
+            services.AddScoped<ILabTestRepo, LabTestRepo>();
+            services.AddScoped<ILabTestResultsRepo, LabTestResultsRepo>();
             services.AddDbContext<HealthCareDbContext>(options => options.UseSqlServer("Server=localhost,1404; DataBase=HealthCare; User Id=SA; Password=Walmart$0"));
             services.AddMvc();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

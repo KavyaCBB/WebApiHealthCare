@@ -22,6 +22,6 @@ namespace WebApiHealthCare.Data
 
         //public ICollection<Staffs> Staffs { get; set; }
         [NotMapped]
-        public ICollection<TestResults> TestResults { get; set; }
+        public ICollection<LabTests> LabTests { get; set; }
     }
 }

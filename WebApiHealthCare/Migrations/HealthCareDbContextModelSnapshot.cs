@@ -19,6 +19,72 @@ namespace WebApiHealthCare.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("WebApiHealthCare.Data.LabTestResults", b =>
+                {
+                    b.Property<int>("TestResultsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Loginid")
+                        .HasColumnType("int");
+
+                    b.Property<float>("PatientRange")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("StaffID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TestResultsId");
+
+                    b.HasIndex("Loginid");
+
+                    b.HasIndex("StaffID");
+
+                    b.HasIndex("TestId");
+
+                    b.ToTable("LabTestResults");
+                });
+
+            modelBuilder.Entity("WebApiHealthCare.Data.LabTests", b =>
+                {
+                    b.Property<int>("TestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("MaxRange")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MinRange")
+                        .HasColumnType("real");
+
+                    b.Property<string>("TestName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TestId");
+
+                    b.ToTable("LabTests");
+                });
+
             modelBuilder.Entity("WebApiHealthCare.Data.Login", b =>
                 {
                     b.Property<int>("Loginid")
@@ -131,42 +197,19 @@ namespace WebApiHealthCare.Migrations
                     b.ToTable("Staffs");
                 });
 
-            modelBuilder.Entity("WebApiHealthCare.Data.TestResults", b =>
+            modelBuilder.Entity("WebApiHealthCare.Data.LabTestResults", b =>
                 {
-                    b.Property<int>("TestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasOne("WebApiHealthCare.Data.Login", "Login")
+                        .WithMany()
+                        .HasForeignKey("Loginid");
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                    b.HasOne("WebApiHealthCare.Data.Staffs", "Staffs")
+                        .WithMany()
+                        .HasForeignKey("StaffID");
 
-                    b.Property<string>("Details")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Loginid")
-                        .HasColumnType("int");
-
-                    b.Property<float>("MaxRange")
-                        .HasColumnType("real");
-
-                    b.Property<float>("MinRange")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PatientRange")
-                        .HasColumnType("real");
-
-                    b.Property<string>("TestName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("TestId");
-
-                    b.HasIndex("Loginid");
-
-                    b.ToTable("TestResults");
+                    b.HasOne("WebApiHealthCare.Data.LabTests", "LabTests")
+                        .WithMany()
+                        .HasForeignKey("TestId");
                 });
 
             modelBuilder.Entity("WebApiHealthCare.Data.Staffs", b =>
@@ -178,13 +221,6 @@ namespace WebApiHealthCare.Migrations
                     b.HasOne("WebApiHealthCare.Data.Roles", "Roles")
                         .WithMany()
                         .HasForeignKey("RoleId");
-                });
-
-            modelBuilder.Entity("WebApiHealthCare.Data.TestResults", b =>
-                {
-                    b.HasOne("WebApiHealthCare.Data.Login", "Login")
-                        .WithMany()
-                        .HasForeignKey("Loginid");
                 });
 #pragma warning restore 612, 618
         }
